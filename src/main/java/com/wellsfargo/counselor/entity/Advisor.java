@@ -1,86 +1,33 @@
-package com.wellsfargo.counselor.entity;
-
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-public class Advisor {
-
+public class FinancialAdvisor {
     @Id
-    @GeneratedValue()
-    private long advisorId;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
     @Column(nullable = false)
-    private String firstName;
+    private String name;
 
-    @Column(nullable = false)
-    private String lastName;
-
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private String phone;
-
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    protected Advisor() {
+    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL)
+    private List<Client> clients;
 
-    }
-
-    public Advisor(String firstName, String lastName, String address, String phone, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.phone = phone;
+    // Constructor
+    public FinancialAdvisor(String name, String email) {
+        this.name = name;
         this.email = email;
     }
 
-    public Long getAdvisorId() {
-        return advisorId;
-    }
+    public FinancialAdvisor() {}
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }
